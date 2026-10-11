@@ -1,0 +1,27 @@
+<h1 class="sr-only">Productos financieros</h1>
+
+<div class="toolbar">
+  <app-product-search [value]="store.searchTerm()" (searchChange)="onSearch($event)" />
+  <a class="btn btn--primary" routerLink="new">Agregar</a>
+</div>
+
+<section class="card" aria-label="Listado de productos financieros">
+  @if (showLoading()) {
+    <div class="state" role="status">
+      <span class="spinner" aria-hidden="true"></span>
+      <p>Cargando productos...</p>
+    </div>
+  } @else if (showError()) {
+    <div class="state state--error" role="alert">
+      <p>No se pudieron cargar los productos.</p>
+      <button type="button" class="btn btn--secondary" (click)="retry()">Reintentar</button>
+    </div>
+  } @else {
+    <app-product-table [products]="store.visible()" [emptyMessage]="emptyMessage()" />
+    <app-product-list-footer
+      [total]="store.total()"
+      [pageSize]="store.pageSize()"
+      (pageSizeChange)="onPageSizeChange($event)"
+    />
+  }
+</section>

@@ -1,0 +1,45 @@
+<div class="table-scroll">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" class="table__logo">Logo</th>
+        <th scope="col">Nombre del producto</th>
+        <th scope="col">
+          <span class="th-info">
+            Descripción
+            <span class="info" title="Detalle del producto financiero" aria-label="Detalle del producto financiero">i</span>
+          </span>
+        </th>
+        <th scope="col">
+          <span class="th-info">
+            Fecha de liberación
+            <span class="info" title="Fecha en la que el producto estará disponible para los clientes" aria-label="Fecha en la que el producto estará disponible para los clientes">i</span>
+          </span>
+        </th>
+        <th scope="col">
+          <span class="th-info">
+            Fecha de reestructuración
+            <span class="info" title="Fecha de revisión de términos y condiciones" aria-label="Fecha de revisión de términos y condiciones">i</span>
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products(); track product.id) {
+        <tr>
+          <td class="table__logo">
+            <app-product-logo [src]="product.logo" [name]="product.name" />
+          </td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.date_release | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ product.date_revision | date: 'dd/MM/yyyy' }}</td>
+        </tr>
+      } @empty {
+        <tr>
+          <td class="table__empty" colspan="5">{{ emptyMessage() }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

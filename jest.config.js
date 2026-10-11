@@ -14,6 +14,7 @@ module.exports = {
     'src/app/**/*.ts',
     '!src/app/**/*.spec.ts',
     '!src/app/**/*.routes.ts',
+    '!src/app/**/testing/**',
     '!src/app/environments/**',
     '!src/main.ts',
   ],

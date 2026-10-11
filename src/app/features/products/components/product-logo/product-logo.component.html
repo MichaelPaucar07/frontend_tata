@@ -1,0 +1,15 @@
+@if (showImage()) {
+  <img
+    class="logo"
+    [src]="src()"
+    [alt]="'Logo de ' + name()"
+    width="40"
+    height="40"
+    loading="lazy"
+    (error)="onError()"
+  />
+} @else {
+  <span class="logo logo--fallback" role="img" [attr.aria-label]="'Logo de ' + name()">
+    {{ name() | initials }}
+  </span>
+}

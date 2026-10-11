@@ -1,0 +1,10 @@
+<label class="sr-only" for="product-search">Buscar productos</label>
+<input
+  id="product-search"
+  class="search"
+  type="search"
+  placeholder="Search..."
+  autocomplete="off"
+  [value]="value()"
+  (input)="onInput($event)"
+/>

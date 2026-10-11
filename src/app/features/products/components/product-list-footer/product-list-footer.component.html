@@ -1,0 +1,10 @@
+<p class="results" aria-live="polite">
+  {{ total() }} {{ total() === 1 ? 'Resultado' : 'Resultados' }}
+</p>
+
+<label class="sr-only" for="page-size">Registros por página</label>
+<select id="page-size" class="select" (change)="onChange($event)">
+  @for (option of options; track option) {
+    <option [value]="option" [selected]="option === pageSize()">{{ option }}</option>
+  }
+</select>

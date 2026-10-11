@@ -1,0 +1,20 @@
+:host {
+  display: inline-flex;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.logo--fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-avatar);
+  color: var(--color-surface);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
