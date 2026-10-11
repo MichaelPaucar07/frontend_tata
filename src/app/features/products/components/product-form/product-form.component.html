@@ -1,0 +1,57 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div class="form__grid">
+    <app-form-field label="ID" fieldId="id" [control]="form.controls.id" [messages]="messages" [hint]="idHint()">
+      <input id="id" class="input" type="text" formControlName="id" autocomplete="off" />
+    </app-form-field>
+
+    <app-form-field label="Nombre" fieldId="name" [control]="form.controls.name" [messages]="messages">
+      <input id="name" class="input" type="text" formControlName="name" />
+    </app-form-field>
+
+    <app-form-field
+      label="Descripción"
+      fieldId="description"
+      [control]="form.controls.description"
+      [messages]="messages"
+    >
+      <input id="description" class="input" type="text" formControlName="description" />
+    </app-form-field>
+
+    <app-form-field label="Logo" fieldId="logo" [control]="form.controls.logo" [messages]="messages">
+      <input id="logo" class="input" type="url" formControlName="logo" placeholder="https://" />
+    </app-form-field>
+
+    <app-form-field
+      label="Fecha Liberación"
+      fieldId="date_release"
+      [control]="form.controls.date_release"
+      [messages]="messages"
+    >
+      <input id="date_release" class="input" type="date" formControlName="date_release" [min]="minReleaseDate" />
+    </app-form-field>
+
+    <app-form-field
+      label="Fecha Revisión"
+      fieldId="date_revision"
+      [control]="form.controls.date_revision"
+      [messages]="messages"
+    >
+      <input
+        id="date_revision"
+        class="input"
+        type="date"
+        formControlName="date_revision"
+        readonly
+        tabindex="-1"
+        aria-readonly="true"
+      />
+    </app-form-field>
+  </div>
+
+  <div class="form__actions">
+    <button type="button" class="btn btn--secondary" (click)="onReset()">Reiniciar</button>
+    <button type="submit" class="btn btn--primary" [disabled]="!canSubmit()">
+      {{ submitting() ? 'Enviando...' : 'Enviar' }}
+    </button>
+  </div>
+</form>

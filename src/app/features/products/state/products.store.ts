@@ -1,4 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { Product } from '@core/models/product/product';
 import { ProductsService } from '@core/service/products/products.service';
 import { normalizeText } from '@shared/utils/text.utils';
@@ -59,6 +60,13 @@ export class ProductsStore {
         this._loading.set(false);
       },
     });
+  }
+
+  /** F4: persists the product and appends it to the cached list on success. */
+  create(product: Product): Observable<Product> {
+    return this.api
+      .create(product)
+      .pipe(tap((created) => this._products.update((list) => [...list, created])));
   }
 
   setSearchTerm(term: string): void {

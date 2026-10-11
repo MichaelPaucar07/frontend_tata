@@ -7,10 +7,10 @@ import { ProductsStore } from './products.store';
 
 describe('ProductsStore', () => {
   let store: ProductsStore;
-  let api: { getAll: jest.Mock };
+  let api: { getAll: jest.Mock; create: jest.Mock };
 
   beforeEach(() => {
-    api = { getAll: jest.fn() };
+    api = { getAll: jest.fn(), create: jest.fn() };
     TestBed.configureTestingModule({
       providers: [{ provide: ProductsService, useValue: api }],
     });
@@ -103,6 +103,32 @@ describe('ProductsStore', () => {
 
     it('should count all filtered results, not only the visible ones', () => {
       expect(store.total()).toBe(12);
+    });
+  });
+
+  describe('create() (F4)', () => {
+    it('should append the created product to the cached list', () => {
+      api.getAll.mockReturnValue(of(buildProducts(1)));
+      store.load();
+      const created = buildProduct({ id: 'nuevo' });
+      api.create.mockReturnValue(of(created));
+
+      let result: Product | undefined;
+      store.create(created).subscribe((p) => (result = p));
+
+      expect(api.create).toHaveBeenCalledWith(created);
+      expect(result).toEqual(created);
+      expect(store.products().map((p) => p.id)).toEqual(['prod-1', 'nuevo']);
+    });
+
+    it('should leave the list untouched and propagate the error on failure', () => {
+      api.create.mockReturnValue(throwError(() => new Error('400')));
+      const onError = jest.fn();
+
+      store.create(buildProduct()).subscribe({ error: onError });
+
+      expect(onError).toHaveBeenCalled();
+      expect(store.products()).toEqual([]);
     });
   });
 });
