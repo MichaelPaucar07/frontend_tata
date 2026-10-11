@@ -17,6 +17,7 @@ module.exports = {
     '!src/app/**/testing/**',
     '!src/app/environments/**',
     '!src/main.ts',
+    '!src/app/app.config.ts',
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['html', 'text-summary', 'lcov'],

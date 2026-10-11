@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ValidationErrors } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { Product } from '@core/models/product/product';
 import { addYearsIso, todayIso } from '@shared/utils/date.utils';
 import { UniqueProductIdValidator } from '../../validators/product.validators';
@@ -98,6 +98,18 @@ describe('ProductFormComponent', () => {
       idValidation.mockReturnValue(of({ idTaken: true }));
       type('id', 'trj-crd');
       expect(errorOf('id')).toBe('ID no válido! Ya existe un producto con este ID.');
+    });
+
+    it('should show "Verificando ID..." while the uniqueness check is pending', () => {
+      const pending$ = new Subject<ValidationErrors | null>();
+      idValidation.mockReturnValue(pending$);
+      type('id', 'trj-crd');
+      expect(el().querySelector('.field__hint')?.textContent).toBe('Verificando ID...');
+
+      pending$.next(null);
+      pending$.complete();
+      fixture.detectChanges();
+      expect(el().querySelector('.field__hint')).toBeNull();
     });
 
     it('should not call the async validator while sync rules fail', () => {

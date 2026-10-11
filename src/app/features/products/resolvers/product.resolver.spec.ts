@@ -18,8 +18,10 @@ describe('productResolver', () => {
   let store: { findById: jest.Mock };
   let notify: { error: jest.Mock };
 
-  const resolve = (id: string): Product | RedirectCommand | undefined => {
-    const route = { paramMap: convertToParamMap({ id }) } as ActivatedRouteSnapshot;
+  const resolve = (id?: string): Product | RedirectCommand | undefined => {
+    const route = {
+      paramMap: convertToParamMap(id === undefined ? {} : { id }),
+    } as ActivatedRouteSnapshot;
     let result: Product | RedirectCommand | undefined;
     TestBed.runInInjectionContext(() =>
       (productResolver(route, {} as RouterStateSnapshot) as Observable<Product | RedirectCommand>)
@@ -66,5 +68,12 @@ describe('productResolver', () => {
 
     expectRedirectToList(resolve('trj-crd'));
     expect(notify.error).not.toHaveBeenCalled();
+  });
+
+  it('should treat a missing :id param as not found', () => {
+    store.findById.mockReturnValue(of(undefined));
+
+    expectRedirectToList(resolve());
+    expect(store.findById).toHaveBeenCalledWith('');
   });
 });

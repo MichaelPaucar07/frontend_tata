@@ -77,8 +77,9 @@ describe('UniqueProductIdValidator', () => {
     validator = TestBed.inject(UniqueProductIdValidator);
   });
 
-  it('should not call the API for an empty id', fakeAsync(() => {
+  it('should not call the API for an empty or null id', fakeAsync(() => {
     expect(run('  ')).toBeNull();
+    expect(run(null as unknown as string)).toBeNull();
     expect(api.verifyId).not.toHaveBeenCalled();
   }));
 
