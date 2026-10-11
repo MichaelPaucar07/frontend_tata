@@ -31,6 +31,11 @@
   text-align: center;
 }
 
+.table .table__actions {
+  width: 56px;
+  text-align: center;
+}
+
 .th-info {
   display: inline-flex;
   align-items: center;

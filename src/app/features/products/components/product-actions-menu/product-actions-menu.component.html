@@ -1,0 +1,23 @@
+<button
+  #trigger
+  type="button"
+  class="trigger"
+  aria-haspopup="menu"
+  [attr.aria-expanded]="!!position()"
+  [attr.aria-label]="'Acciones para ' + product().name"
+  (click)="toggle(trigger)"
+>
+  <svg viewBox="0 0 4 16" width="4" height="16" aria-hidden="true">
+    <circle cx="2" cy="2" r="2" />
+    <circle cx="2" cy="8" r="2" />
+    <circle cx="2" cy="14" r="2" />
+  </svg>
+</button>
+
+@if (position(); as pos) {
+  <ul class="menu" role="menu" [style.top.px]="pos.top" [style.right.px]="pos.right">
+    <li role="none">
+      <button type="button" class="menu__item" role="menuitem" (click)="onEdit()">Editar</button>
+    </li>
+  </ul>
+}

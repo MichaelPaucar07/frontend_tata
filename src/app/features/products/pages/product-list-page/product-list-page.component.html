@@ -17,7 +17,11 @@
       <button type="button" class="btn btn--secondary" (click)="retry()">Reintentar</button>
     </div>
   } @else {
-    <app-product-table [products]="store.visible()" [emptyMessage]="emptyMessage()" />
+    <app-product-table
+      [products]="store.visible()"
+      [emptyMessage]="emptyMessage()"
+      (edit)="onEdit($event)"
+    />
     <app-product-list-footer
       [total]="store.total()"
       [pageSize]="store.pageSize()"

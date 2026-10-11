@@ -1,0 +1,52 @@
+:host {
+  display: inline-flex;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-text);
+  transition: background-color var(--transition-fast);
+}
+
+.trigger svg {
+  fill: currentColor;
+}
+
+.trigger:hover,
+.trigger[aria-expanded='true'] {
+  background-color: var(--color-secondary);
+}
+
+.menu {
+  position: fixed;
+  z-index: 900;
+  min-width: 140px;
+  margin: 0;
+  padding: var(--space-1) 0;
+  list-style: none;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.menu__item {
+  width: 100%;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  background: none;
+  text-align: left;
+}
+
+.menu__item:hover,
+.menu__item:focus-visible {
+  background-color: var(--color-surface-muted);
+}

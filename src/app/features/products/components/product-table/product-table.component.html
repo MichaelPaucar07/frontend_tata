@@ -22,6 +22,7 @@
             <span class="info" title="Fecha de revisión de términos y condiciones" aria-label="Fecha de revisión de términos y condiciones">i</span>
           </span>
         </th>
+        <th scope="col" class="table__actions"><span class="sr-only">Acciones</span></th>
       </tr>
     </thead>
     <tbody>
@@ -34,10 +35,13 @@
           <td>{{ product.description }}</td>
           <td>{{ product.date_release | date: 'dd/MM/yyyy' }}</td>
           <td>{{ product.date_revision | date: 'dd/MM/yyyy' }}</td>
+          <td class="table__actions">
+            <app-product-actions-menu [product]="product" (edit)="edit.emit($event)" />
+          </td>
         </tr>
       } @empty {
         <tr>
-          <td class="table__empty" colspan="5">{{ emptyMessage() }}</td>
+          <td class="table__empty" colspan="6">{{ emptyMessage() }}</td>
         </tr>
       }
     </tbody>

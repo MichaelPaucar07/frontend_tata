@@ -154,4 +154,65 @@ describe('ProductFormComponent', () => {
     });
     expect(el().querySelectorAll('.field__error').length).toBe(0);
   });
+
+  describe('edit mode (F5)', () => {
+    const editProduct = (): void => {
+      fixture.componentRef.setInput('product', validProduct);
+      fixture.detectChanges();
+    };
+
+    it('should pre-fill the form and disable the id', () => {
+      editProduct();
+
+      expect(component.form.getRawValue()).toEqual(validProduct);
+      expect(component.form.controls.id.disabled).toBe(true);
+      expect(el().querySelector<HTMLInputElement>('#id')!.disabled).toBe(true);
+    });
+
+    it('should not run the id uniqueness check', () => {
+      idValidation.mockClear();
+      editProduct();
+      type('name', 'Nombre editado');
+
+      expect(idValidation).not.toHaveBeenCalled();
+      expect(submitButton().disabled).toBe(false);
+    });
+
+    it('should keep the same validations as create', () => {
+      editProduct();
+      type('description', 'corta');
+      expect(errorOf('description')).toBe('Debe tener mínimo 10 caracteres.');
+      expect(submitButton().disabled).toBe(true);
+    });
+
+    it('should emit the product including the disabled id', () => {
+      const emitted: Product[] = [];
+      component.submitted.subscribe((p) => emitted.push(p));
+      editProduct();
+      type('name', 'Nombre editado');
+
+      submitButton().click();
+
+      expect(emitted).toEqual([{ ...validProduct, name: 'Nombre editado' }]);
+    });
+
+    it('should restore the loaded product on "Reiniciar"', () => {
+      editProduct();
+      type('name', 'Otro nombre');
+
+      el().querySelector<HTMLButtonElement>('button[type="button"]')!.click();
+
+      expect(component.form.getRawValue()).toEqual(validProduct);
+    });
+
+    it('should go back to create mode when the product is cleared', () => {
+      editProduct();
+      fixture.componentRef.setInput('product', null);
+      fixture.detectChanges();
+
+      expect(component.form.controls.id.enabled).toBe(true);
+      type('id', 'nuevo-id');
+      expect(idValidation).toHaveBeenCalled();
+    });
+  });
 });

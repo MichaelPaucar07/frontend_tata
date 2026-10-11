@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { productResolver } from './resolvers/product.resolver';
 
 export const PRODUCTS_ROUTES: Routes = [
   {
@@ -20,6 +21,8 @@ export const PRODUCTS_ROUTES: Routes = [
   {
     path: ':id/edit',
     title: 'Editar producto | Banco',
+    // Bound to the page's `product` input via withComponentInputBinding.
+    resolve: { product: productResolver },
     loadComponent: () =>
       import('./pages/product-form-page/product-form-page.component').then(
         (m) => m.ProductFormPageComponent,

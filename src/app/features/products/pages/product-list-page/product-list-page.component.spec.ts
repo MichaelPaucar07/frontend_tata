@@ -1,13 +1,13 @@
 import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { Product } from '@core/models/product/product';
 import { ProductListFooterComponent } from '../../components/product-list-footer/product-list-footer.component';
 import { ProductSearchComponent } from '../../components/product-search/product-search.component';
 import { ProductTableComponent } from '../../components/product-table/product-table.component';
 import { PageSize, ProductsStore } from '../../state/products.store';
-import { buildProducts } from '../../testing/product.fixtures';
+import { buildProduct, buildProducts } from '../../testing/product.fixtures';
 import { ProductListPageComponent } from './product-list-page.component';
 
 /** Minimal signal-based fake: the page only reads signals and calls methods. */
@@ -116,5 +116,17 @@ describe('ProductListPageComponent', () => {
 
     expect(store.setSearchTerm).toHaveBeenCalledWith('tarjeta');
     expect(store.setPageSize).toHaveBeenCalledWith(20);
+  });
+
+  it('should navigate to the edit page when a row requests edit (F5)', () => {
+    const router = TestBed.inject(Router);
+    const navigate = jest.spyOn(router, 'navigate').mockResolvedValue(true);
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.directive(ProductTableComponent))
+      .triggerEventHandler('edit', buildProduct({ id: 'trj-crd' }));
+
+    expect(navigate).toHaveBeenCalledWith(['/products', 'trj-crd', 'edit']);
   });
 });

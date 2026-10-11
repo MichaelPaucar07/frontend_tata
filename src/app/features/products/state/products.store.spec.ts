@@ -7,10 +7,10 @@ import { ProductsStore } from './products.store';
 
 describe('ProductsStore', () => {
   let store: ProductsStore;
-  let api: { getAll: jest.Mock; create: jest.Mock };
+  let api: { getAll: jest.Mock; create: jest.Mock; update: jest.Mock };
 
   beforeEach(() => {
-    api = { getAll: jest.fn(), create: jest.fn() };
+    api = { getAll: jest.fn(), create: jest.fn(), update: jest.fn() };
     TestBed.configureTestingModule({
       providers: [{ provide: ProductsService, useValue: api }],
     });
@@ -129,6 +129,53 @@ describe('ProductsStore', () => {
 
       expect(onError).toHaveBeenCalled();
       expect(store.products()).toEqual([]);
+    });
+  });
+
+  describe('findById() (F5)', () => {
+    it('should resolve from the cache without calling the API again', () => {
+      api.getAll.mockReturnValue(of(buildProducts(3)));
+      store.load();
+
+      let result: Product | undefined;
+      store.findById('prod-2').subscribe((p) => (result = p));
+
+      expect(result?.id).toBe('prod-2');
+      expect(api.getAll).toHaveBeenCalledTimes(1);
+    });
+
+    it('should fetch and cache the list when it is not loaded', () => {
+      api.getAll.mockReturnValue(of(buildProducts(3)));
+
+      let result: Product | undefined;
+      store.findById('prod-3').subscribe((p) => (result = p));
+
+      expect(result?.id).toBe('prod-3');
+      expect(store.products().length).toBe(3);
+    });
+
+    it('should emit undefined for an unknown id', () => {
+      api.getAll.mockReturnValue(of(buildProducts(1)));
+
+      let result: Product | undefined = buildProduct();
+      store.findById('nope').subscribe((p) => (result = p));
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('update() (F5)', () => {
+    it('should send the changes without id and replace the cached product', () => {
+      api.getAll.mockReturnValue(of(buildProducts(2)));
+      store.load();
+      const edited = buildProduct({ id: 'prod-1', name: 'Nombre editado' });
+      api.update.mockReturnValue(of(edited));
+
+      store.update(edited).subscribe();
+
+      const { id, ...changes } = edited;
+      expect(api.update).toHaveBeenCalledWith(id, changes);
+      expect(store.products().map((p) => p.name)).toEqual(['Nombre editado', 'Producto 2']);
     });
   });
 });

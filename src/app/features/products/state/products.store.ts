@@ -1,5 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { Product } from '@core/models/product/product';
 import { ProductsService } from '@core/service/products/products.service';
 import { normalizeText } from '@shared/utils/text.utils';
@@ -67,6 +67,30 @@ export class ProductsStore {
     return this.api
       .create(product)
       .pipe(tap((created) => this._products.update((list) => [...list, created])));
+  }
+
+  /** F5: resolves from the cached list first; fetches the list when it is not loaded yet. */
+  findById(id: string): Observable<Product | undefined> {
+    const cached = this._products().find((p) => p.id === id);
+    if (cached) {
+      return of(cached);
+    }
+    return this.api.getAll().pipe(
+      tap((products) => this._products.set(products)),
+      map((products) => products.find((p) => p.id === id)),
+    );
+  }
+
+  /** F5: persists the changes and replaces the cached product on success. */
+  update(product: Product): Observable<Product> {
+    const { id, ...changes } = product;
+    return this.api
+      .update(id, changes)
+      .pipe(
+        tap((updated) =>
+          this._products.update((list) => list.map((p) => (p.id === id ? updated : p))),
+        ),
+      );
   }
 
   setSearchTerm(term: string): void {

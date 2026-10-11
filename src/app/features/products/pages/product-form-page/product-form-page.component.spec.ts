@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, provideRouter } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { Product } from '@core/models/product/product';
 import { NotifyService } from '@core/service/ui/notify/notify.service';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
@@ -12,7 +12,7 @@ import { ProductFormPageComponent } from './product-form-page.component';
 
 describe('ProductFormPageComponent', () => {
   let fixture: ComponentFixture<ProductFormPageComponent>;
-  let store: { create: jest.Mock };
+  let store: { create: jest.Mock; update: jest.Mock };
   let notify: { success: jest.Mock };
   let router: Router;
   let response$: Subject<Product>;
@@ -25,7 +25,10 @@ describe('ProductFormPageComponent', () => {
 
   beforeEach(() => {
     response$ = new Subject<Product>();
-    store = { create: jest.fn().mockReturnValue(response$) };
+    store = {
+      create: jest.fn().mockReturnValue(response$),
+      update: jest.fn().mockReturnValue(response$),
+    };
     notify = { success: jest.fn() };
 
     TestBed.configureTestingModule({
@@ -34,7 +37,7 @@ describe('ProductFormPageComponent', () => {
         provideRouter([]),
         { provide: ProductsStore, useValue: store },
         { provide: NotifyService, useValue: notify },
-        { provide: UniqueProductIdValidator, useValue: { validate: jest.fn() } },
+        { provide: UniqueProductIdValidator, useValue: { validate: () => of(null) } },
       ],
     });
     router = TestBed.inject(Router);
@@ -72,5 +75,30 @@ describe('ProductFormPageComponent', () => {
     expect(form().componentInstance.submitting()).toBe(false);
     expect(router.navigate).not.toHaveBeenCalled();
     expect(notify.success).not.toHaveBeenCalled();
+  });
+
+  describe('edit mode (F5)', () => {
+    const product = buildProduct({ id: 'trj-crd' });
+
+    beforeEach(() => {
+      fixture.componentRef.setInput('product', product);
+      fixture.detectChanges();
+    });
+
+    it('should show the edit title and pass the product to the form', () => {
+      expect(fixture.nativeElement.querySelector('h1').textContent).toBe('Editar Producto');
+      expect(form().componentInstance.product()).toBe(product);
+    });
+
+    it('should update instead of create and notify on success', () => {
+      const edited = { ...product, name: 'Nombre editado' };
+      submit(edited);
+      response$.next(edited);
+
+      expect(store.update).toHaveBeenCalledWith(edited);
+      expect(store.create).not.toHaveBeenCalled();
+      expect(notify.success).toHaveBeenCalledWith('Producto actualizado correctamente.');
+      expect(router.navigate).toHaveBeenCalledWith(['/products']);
+    });
   });
 });
