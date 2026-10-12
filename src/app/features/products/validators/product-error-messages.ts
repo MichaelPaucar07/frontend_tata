@@ -1,6 +1,6 @@
 import { ErrorMessages } from '@shared/utils/form-errors';
 
-/** Domain-specific messages; generic ones (required, min/max length) come from shared. */
+/** MENSAJES PROPIOS DE PRODUCTOS. LOS GENERALES (REQUERIDO, MINIMO, MAXIMO) ESTAN EN SHARED. */
 export const PRODUCT_ERROR_MESSAGES: ErrorMessages = {
   idTaken: 'ID no válido! Ya existe un producto con este ID.',
   idVerificationFailed: 'No se pudo verificar el ID. Intenta nuevamente.',

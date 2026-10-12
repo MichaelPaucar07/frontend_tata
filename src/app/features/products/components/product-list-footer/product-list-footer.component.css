@@ -16,7 +16,7 @@
   padding: 0 var(--space-6) 0 var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  /* Custom caret (pure CSS) to match D1. */
+  /* FLECHITA DEL SELECT HECHA CON CSS PARA QUE SE VEA IGUAL QUE EN D1. */
   background: var(--color-surface)
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%232b2b2b'/%3E%3C/svg%3E")
     no-repeat right var(--space-3) center;

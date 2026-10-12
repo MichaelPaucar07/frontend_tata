@@ -9,9 +9,10 @@ interface MenuPosition {
 const MENU_OFFSET_PX = 4;
 
 /**
- * Per-row dropdown (D3). The panel uses `position: fixed` so the table's
- * horizontal-scroll container cannot clip it; it closes on outside click,
- * Escape, scroll and resize because the fixed coordinates would go stale.
+ * MENU DE ACCIONES DE CADA FILA (D3).
+ * USAMOS `position: fixed` PORQUE LA TABLA TIENE SCROLL HORIZONTAL Y UN MENU NORMAL
+ * QUEDABA CORTADO EN LAS ULTIMAS FILAS. POR LO MISMO LO CERRAMOS SI EL USUARIO HACE
+ * SCROLL O CAMBIA EL TAMANIO DE LA VENTANA: LA POSICION YA NO SERIA LA CORRECTA.
  */
 @Component({
   selector: 'app-product-actions-menu',

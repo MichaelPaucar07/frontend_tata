@@ -21,7 +21,7 @@ export const PRODUCTS_ROUTES: Routes = [
   {
     path: ':id/edit',
     title: 'Editar producto | Banco',
-    // Bound to the page's `product` input via withComponentInputBinding.
+    // EL PRODUCTO RESUELTO LE LLEGA A LA PAGINA COMO EL INPUT `product`.
     resolve: { product: productResolver },
     loadComponent: () =>
       import('./pages/product-form-page/product-form-page.component').then(

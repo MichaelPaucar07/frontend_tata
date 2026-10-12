@@ -22,11 +22,9 @@ export class ProductsService {
   update(id: string, changes: ProductUpdate): Observable<Product> {
     return this.http
       .put<ApiResponse<ProductUpdate>>(`${this.baseUrl}/${encodeURIComponent(id)}`, changes)
-      // The API omits the id in the PUT response; restore it for a complete model.
       .pipe(map((res) => ({ id, ...res.data })));
   }
 
-  /** `true` when the id is already taken. Errors are handled by the caller (silent). */
   verifyId(id: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/verification/${encodeURIComponent(id)}`, {
       context: new HttpContext().set(SKIP_ERROR_NOTIFY, true),

@@ -5,8 +5,8 @@ import { startWith, switchMap } from 'rxjs';
 import { ErrorMessages, getControlErrorMessage } from '@shared/utils/form-errors';
 
 /**
- * Label + projected control + error message (D2 error state).
- * Shows the error once the user interacted with the control (touched or dirty).
+ * ETIQUETA + CAMPO + MENSAJE DE ERROR, COMO EN D2.
+ * EL ERROR SOLO APARECE CUANDO EL USUARIO YA TOCO EL CAMPO, NO APENAS ENTRA A LA PANTALLA.
  */
 @Component({
   selector: 'app-form-field',
@@ -27,8 +27,8 @@ export class FormFieldComponent {
   readonly hint = input<string | null>(null);
 
   /**
-   * Reactive forms are not signal-based: `control.events` (Angular 18) emits on every
-   * value/status/touched change, which re-evaluates the computed below under OnPush.
+   * LOS FORMULARIOS REACTIVOS NO SON SIGNALS. ESCUCHAMOS `control.events` (NUEVO EN
+   * ANGULAR 18) PARA QUE EL MENSAJE DE ERROR SE ACTUALICE AUNQUE USEMOS ONPUSH.
    */
   private readonly controlEvent = toSignal(
     toObservable(this.control).pipe(switchMap((control) => control.events.pipe(startWith(null)))),

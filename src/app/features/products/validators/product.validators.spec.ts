@@ -33,7 +33,7 @@ describe('oneYearAfterValidator', () => {
       date_release: new FormControl(release),
       date_revision: new FormControl(revision, oneYearAfterValidator('date_release')),
     });
-    // The parent only exists after the group is built (the form re-validates on release change).
+    // EL GRUPO SE CREA DESPUES DEL CONTROL, ASI QUE VALIDAMOS OTRA VEZ CUANDO YA TIENE PADRE.
     group.controls.date_revision.updateValueAndValidity();
     return group;
   };

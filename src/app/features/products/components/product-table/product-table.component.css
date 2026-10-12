@@ -1,4 +1,4 @@
-/* Horizontal scroll on narrow screens, as shown in D1. */
+/* EN PANTALLAS PEQUENIAS LA TABLA SE DESPLAZA DE LADO, IGUAL QUE EN D1. */
 .table-scroll {
   overflow-x: auto;
 }

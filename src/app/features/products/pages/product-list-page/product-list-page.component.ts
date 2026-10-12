@@ -6,7 +6,10 @@ import { ProductSearchComponent } from '../../components/product-search/product-
 import { ProductTableComponent } from '../../components/product-table/product-table.component';
 import { PageSize, ProductsStore } from '../../state/products.store';
 
-/** Listing page (F1, F2, F3, entry point of F5): orchestrates the store and presentational components. */
+/**
+ * PAGINA DEL LISTADO (F1, F2, F3) Y PUNTO DE ENTRADA PARA EDITAR (F5).
+ * NO TIENE LOGICA PROPIA: SOLO CONECTA EL STORE CON LOS COMPONENTES.
+ */
 @Component({
   selector: 'app-product-list-page',
   standalone: true,
@@ -19,7 +22,6 @@ export class ProductListPageComponent implements OnInit {
   protected readonly store = inject(ProductsStore);
   private readonly router = inject(Router);
 
-  /** Block the table only on the first load; later reloads keep showing cached rows. */
   protected readonly showLoading = computed(
     () => this.store.loading() && this.store.products().length === 0,
   );

@@ -15,7 +15,7 @@ export const DEFAULT_ERROR_MESSAGES: ErrorMessages = {
 
 export const FALLBACK_ERROR_MESSAGE = 'Valor no válido.';
 
-/** First error wins; custom messages override the defaults. */
+/** DEVUELVE EL MENSAJE DEL PRIMER ERROR. SI HAY UNO PERSONALIZADO, ESE TIENE PRIORIDAD. */
 export function getControlErrorMessage(
   errors: ValidationErrors | null,
   custom: ErrorMessages = {},

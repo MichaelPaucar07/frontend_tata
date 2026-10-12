@@ -27,7 +27,7 @@ Prueba técnica Frontend Angular (2024) — perfil **SemiSenior**.
 ### 1. Backend
 
 ```bash
-# dentro de la carpeta descomprimida de repo-interview-main
+# DENTRO DE LA CARPETA DESCOMPRIMIDA DE REPO-INTERVIEW-MAIN
 npm install
 npm run start:dev   # → http://localhost:3002
 ```

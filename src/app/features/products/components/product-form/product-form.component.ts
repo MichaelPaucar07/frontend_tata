@@ -20,9 +20,9 @@ import {
 } from '../../validators/product.validators';
 
 /**
- * Create (F4) / edit (F5) form (D2).
- * Edit mode = a `product` is provided: values are pre-filled, the id is disabled
- * and the uniqueness check is removed (the id already exists by definition).
+ * EL MISMO FORMULARIO SIRVE PARA CREAR (F4) Y PARA EDITAR (F5).
+ * SI RECIBE UN `product` ESTAMOS EDITANDO: SE LLENAN LOS CAMPOS, SE BLOQUEA EL ID
+ * Y YA NO HACE FALTA VERIFICAR QUE SEA UNICO, PORQUE ESE PRODUCTO YA EXISTE.
  */
 @Component({
   selector: 'app-product-form',
@@ -58,7 +58,7 @@ export class ProductFormComponent {
     date_revision: ['', [Validators.required, oneYearAfterValidator('date_release')]],
   });
 
-  /** Bridges reactive-form status into a signal so OnPush reacts to async validation. */
+  /** PASAMOS EL ESTADO DEL FORMULARIO A SIGNAL; SIN ESTO, CON ONPUSH EL BOTON NO SE ENTERARIA CUANDO TERMINA LA VALIDACION DEL ID. */
   private readonly status = toSignal(this.form.statusChanges, { initialValue: this.form.status });
 
   protected readonly canSubmit = computed(() => this.status() === 'VALID' && !this.submitting());
@@ -67,14 +67,14 @@ export class ProductFormComponent {
   );
 
   constructor() {
-    // Revision is derived: always exactly one year after the release date.
+    // LA FECHA DE REVISION NO LA ESCRIBE EL USUARIO: SIEMPRE ES UN ANIO DESPUES DE LA LIBERACION.
     this.form.controls.date_release.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((release) =>
         this.form.controls.date_revision.setValue(release ? addYearsIso(release, 1) : ''),
       );
 
-    // Sync the (non-signal) reactive form with the `product` input.
+    // MANTIENE EL FORMULARIO AL DIA CUANDO CAMBIA EL PRODUCTO QUE NOS PASAN.
     effect(() => this.applyMode(this.product()));
   }
 
@@ -86,7 +86,7 @@ export class ProductFormComponent {
     this.submitted.emit(this.form.getRawValue());
   }
 
-  /** Create: blank form. Edit: back to the loaded product. */
+  /** EN CREAR DEJA TODO EN BLANCO; EN EDITAR REGRESA A LOS DATOS ORIGINALES DEL PRODUCTO. */
   protected onReset(): void {
     const product = this.product();
     if (product) {
@@ -99,8 +99,8 @@ export class ProductFormComponent {
   private applyMode(product: Product | null): void {
     const id = this.form.controls.id;
     if (product) {
-      // Order matters: drop the uniqueness check BEFORE loading values,
-      // otherwise reset() would hit /verification for an id we know exists.
+      // OJO CON EL ORDEN: PRIMERO QUITAMOS LA VALIDACION DEL ID Y LUEGO CARGAMOS LOS DATOS.
+      // AL REVES, reset() LLAMARIA A /verification POR UN ID QUE YA SABEMOS QUE EXISTE.
       id.removeAsyncValidators(this.uniqueId);
       id.disable();
       this.form.reset(product);

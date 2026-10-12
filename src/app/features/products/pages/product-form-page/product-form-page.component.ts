@@ -7,9 +7,9 @@ import { ProductFormComponent } from '../../components/product-form/product-form
 import { ProductsStore } from '../../state/products.store';
 
 /**
- * Create (F4) / edit (F5) page. One component, two modes:
- * `/products/new` → no product → create;
- * `/products/:id/edit` → `product` comes from productResolver → edit.
+ * ESTA PAGINA SIRVE PARA CREAR Y PARA EDITAR:
+ * - EN `/products/new` NO HAY PRODUCTO, ASI QUE CREAMOS UNO NUEVO.
+ * - EN `/products/:id/edit` EL RESOLVER NOS ENTREGA EL `product` Y LO EDITAMOS.
  */
 @Component({
   selector: 'app-product-form-page',
@@ -24,7 +24,7 @@ export class ProductFormPageComponent {
   private readonly notify = inject(NotifyService);
   private readonly router = inject(Router);
 
-  /** Bound from the route resolver (withComponentInputBinding). */
+  /** LLEGA DESDE EL RESOLVER DE LA RUTA GRACIAS A withComponentInputBinding. */
   readonly product = input<Product>();
   readonly isEdit = computed(() => !!this.product());
 
@@ -47,7 +47,6 @@ export class ProductFormPageComponent {
         this.notify.success(successMessage);
         this.router.navigate(['/products']);
       },
-      // The interceptor already shows the error; just let the user retry.
       error: () => this.submitting.set(false),
     });
   }

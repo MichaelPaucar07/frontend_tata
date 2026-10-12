@@ -12,12 +12,12 @@ export const SEARCH_DEBOUNCE_MS = 300;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductSearchComponent {
-  /** Initial/current term (keeps the box in sync when coming back to the list). */
+  /** VALOR ACTUAL DE LA BUSQUEDA, PARA QUE NO SE PIERDA AL VOLVER AL LISTADO. */
   readonly value = input('');
 
   private readonly term$ = new Subject<string>();
 
-  /** Emits after the user stops typing, only when the term actually changed. */
+  /** AVISA CUANDO EL USUARIO TERMINA DE ESCRIBIR, Y SOLO SI DE VERDAD CAMBIO LO QUE BUSCA. */
   readonly searchChange = outputFromObservable(
     this.term$.pipe(debounceTime(SEARCH_DEBOUNCE_MS), distinctUntilChanged()),
   );

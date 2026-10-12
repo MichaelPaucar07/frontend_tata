@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-/** "Tarjetas de Crédito" → "TD". Used as avatar fallback when a logo fails. */
+/** CONVIERTE "TARJETAS DE CREDITO" EN "TD". LO USAMOS COMO AVATAR CUANDO EL LOGO NO CARGA. */
 @Pipe({ name: 'initials', standalone: true })
 export class InitialsPipe implements PipeTransform {
   transform(value: string | null | undefined, max = 2): string {

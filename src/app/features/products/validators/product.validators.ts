@@ -6,7 +6,7 @@ import { addYearsIso, todayIso } from '@shared/utils/date.utils';
 
 export const ID_CHECK_DEBOUNCE_MS = 400;
 
-/** Date must be today or later. `today` is injectable for deterministic tests. */
+/** LA FECHA TIENE QUE SER HOY O MAS ADELANTE. `today` SE PUEDE CAMBIAR EN LAS PRUEBAS PARA QUE NO DEPENDAN DEL DIA. */
 export function minTodayValidator(today: () => string = todayIso): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value: string = control.value;
@@ -17,7 +17,7 @@ export function minTodayValidator(today: () => string = todayIso): ValidatorFn {
   };
 }
 
-/** Value must be exactly one year after the sibling `releaseControlName`. */
+/** LA REVISION TIENE QUE CAER EXACTAMENTE UN ANIO DESPUES DE LA FECHA DE LIBERACION. */
 export function oneYearAfterValidator(releaseControlName: string): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const release: string | undefined = control.parent?.get(releaseControlName)?.value;
@@ -29,9 +29,9 @@ export function oneYearAfterValidator(releaseControlName: string): ValidatorFn {
 }
 
 /**
- * Checks the id against `/verification/:id`.
- * Angular cancels the previous validation on every keystroke, so the `timer`
- * acts as a debounce: only the last value reaches the API.
+ * REVISA EN LA API (`/verification/:id`) QUE EL ID NO ESTE OCUPADO.
+ * ANGULAR CANCELA LA VALIDACION ANTERIOR CON CADA TECLA, ASI QUE EL `timer`
+ * HACE DE DEBOUNCE: SOLO CONSULTAMOS CUANDO EL USUARIO DEJA DE ESCRIBIR.
  */
 @Injectable({ providedIn: 'root' })
 export class UniqueProductIdValidator implements AsyncValidator {

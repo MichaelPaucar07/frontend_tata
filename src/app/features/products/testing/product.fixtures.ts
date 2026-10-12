@@ -1,6 +1,6 @@
 import { Product } from '@core/models/product/product';
 
-/** Test data builders shared by the products feature specs. */
+/** DATOS DE PRUEBA REUTILIZABLES PARA LOS SPECS DE PRODUCTOS. */
 export function buildProduct(overrides: Partial<Product> = {}): Product {
   return {
     id: 'trj-crd',

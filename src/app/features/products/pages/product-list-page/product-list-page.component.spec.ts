@@ -10,7 +10,7 @@ import { PageSize, ProductsStore } from '../../state/products.store';
 import { buildProduct, buildProducts } from '../../testing/product.fixtures';
 import { ProductListPageComponent } from './product-list-page.component';
 
-/** Minimal signal-based fake: the page only reads signals and calls methods. */
+/** UN STORE FALSO MUY SIMPLE: LA PAGINA SOLO LEE SIGNALS Y LLAMA METODOS, NO NECESITA MAS. */
 function createStoreMock() {
   return {
     products: signal<Product[]>([]),

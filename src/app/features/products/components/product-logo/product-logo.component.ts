@@ -13,7 +13,7 @@ export class ProductLogoComponent {
   readonly src = input.required<string>();
   readonly name = input.required<string>();
 
-  /** Remembers which src failed, so a new src automatically gets a fresh attempt. */
+  /** GUARDAMOS QUE URL FALLO; SI LLEGA OTRA DISTINTA, SE VUELVE A INTENTAR SOLA. */
   private readonly failedSrc = signal<string | null>(null);
   protected readonly showImage = computed(() => !!this.src() && this.src() !== this.failedSrc());
 

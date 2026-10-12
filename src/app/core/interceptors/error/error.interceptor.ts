@@ -3,10 +3,7 @@ import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { NotifyService } from '@core/service/ui/notify/notify.service';
 
-/**
- * Opt-out flag for requests that handle their own errors
- * (e.g. the async id validator, which must not spam toasts while typing).
- */
+/** PARA LAS PETICIONES QUE PREFIEREN MANEJAR SU PROPIO ERROR SIN MOSTRAR TOAST. */
 export const SKIP_ERROR_NOTIFY = new HttpContextToken<boolean>(() => false);
 
 export function resolveErrorMessage(status: number): string {
@@ -33,7 +30,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error instanceof HttpErrorResponse && !req.context.get(SKIP_ERROR_NOTIFY)) {
         notify.error(resolveErrorMessage(error.status));
       }
-      // Re-throw so callers can still react (reset loading state, show inline errors…)
+      // VOLVEMOS A LANZAR EL ERROR PARA QUE CADA PANTALLA DECIDA QUE HACER (QUITAR EL LOADING, MARCAR EL CAMPO, ETC.).
       return throwError(() => error);
     }),
   );

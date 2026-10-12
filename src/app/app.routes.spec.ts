@@ -15,7 +15,7 @@ describe('App routes', () => {
   const existing = buildProduct({ id: 'trj-crd' });
   let harness: RouterTestingHarness;
 
-  /** Pages render inside the PrincipalComponent layout, so query the nested instance. */
+  /** LAS PAGINAS VIVEN DENTRO DEL LAYOUT, ASI QUE BUSCAMOS EL COMPONENTE HIJO Y NO EL QUE DEVUELVE EL HARNESS. */
   async function navigate<T>(url: string, page: Type<T>): Promise<T> {
     await harness.navigateByUrl(url);
     const debugElement = harness.fixture.debugElement.query(By.directive(page));
@@ -27,7 +27,7 @@ describe('App routes', () => {
     TestBed.configureTestingModule({
       providers: [
         provideRouter(routes, withComponentInputBinding()),
-        // Fake API: keeps navigation tests free of HTTP.
+        // USAMOS UNA API FALSA PARA QUE ESTAS PRUEBAS NO DEPENDAN DE HTTP.
         {
           provide: ProductsService,
           useValue: { getAll: () => of([existing]), verifyId: () => of(false) },

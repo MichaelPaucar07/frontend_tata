@@ -1,15 +1,15 @@
 /* ==========================================================================
-   Design tokens (D1–D4). Components consume these variables only —
-   never hard-coded colors — so the theme lives in one place.
+   VARIABLES DE DISENIO (D1–D4). LOS COMPONENTES SOLO USAN ESTAS VARIABLES,
+   NUNCA COLORES SUELTOS; ASI, CAMBIAR EL TEMA ES TOCAR UN SOLO LUGAR.
    ========================================================================== */
 :root {
-  /* Brand */
+  /* MARCA */
   --color-primary: #1e2a5a;
   --color-accent: #f8dc56;
   --color-accent-hover: #f2cf2c;
   --color-accent-disabled: #fbf0a8;
 
-  /* Neutrals */
+  /* NEUTROS */
   --color-bg: #f4f5f9;
   --color-surface: #ffffff;
   --color-surface-muted: #f8f9fb;
@@ -23,13 +23,13 @@
   --color-avatar: #c3c8db;
   --color-overlay: rgba(30, 30, 40, 0.55);
 
-  /* Feedback */
+  /* ESTADOS: ERROR Y EXITO */
   --color-error: #d0021b;
   --color-error-bg: #fdecee;
   --color-success: #1e8e3e;
   --color-success-bg: #e6f4ea;
 
-  /* Typography */
+  /* TIPOGRAFIA */
   --font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -37,7 +37,7 @@
   --font-size-lg: 1.5rem;
   --font-size-xl: 1.75rem;
 
-  /* Spacing (4px scale) */
+  /* ESPACIADO (ESCALA DE 4PX) */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -46,7 +46,7 @@
   --space-6: 2rem;
   --space-7: 3rem;
 
-  /* Shape & depth */
+  /* BORDES Y SOMBRAS */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 12px;
@@ -59,7 +59,7 @@
 }
 
 /* ==========================================================================
-   Reset
+   RESET
    ========================================================================== */
 *,
 *::before,
@@ -110,7 +110,7 @@ button:disabled {
 }
 
 /* ==========================================================================
-   Global utilities (kept intentionally small)
+   UTILIDADES GLOBALES (POCAS, A PROPOSITO)
    ========================================================================== */
 .sr-only {
   position: absolute;
@@ -159,7 +159,7 @@ button:disabled {
   background-color: var(--color-secondary-hover);
 }
 
-/* Form controls (D2) — shared by every form via <app-form-field>. */
+/* ESTILOS DE LOS CAMPOS (D2). LOS USAN TODOS LOS FORMULARIOS A TRAVES DE <app-form-field>. */
 .input {
   width: 100%;
   height: 44px;

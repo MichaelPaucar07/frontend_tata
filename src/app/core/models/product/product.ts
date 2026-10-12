@@ -1,7 +1,7 @@
 /**
- * Financial product as exposed by the API.
- * Dates travel as ISO calendar strings (`YYYY-MM-DD`), never as `Date`,
- * to avoid timezone shifts when serializing.
+ * UN PRODUCTO FINANCIERO TAL CUAL LO ENVIA LA API.
+ * LAS FECHAS LAS MANEJAMOS COMO TEXTO `YYYY-MM-DD` Y NO COMO `Date`;
+ * ASI EVITAMOS QUE LA ZONA HORARIA NOS MUEVA UN DIA.
  */
 export interface Product {
   id: string;
@@ -12,5 +12,5 @@ export interface Product {
   date_revision: string;
 }
 
-/** PUT body: the id goes in the URL and cannot change. */
+/** PARA EL PUT: EL ID VA EN LA URL, NO EN EL BODY, Y NO SE PUEDE CAMBIAR. */
 export type ProductUpdate = Omit<Product, 'id'>;
