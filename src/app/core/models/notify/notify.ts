@@ -1,6 +1,6 @@
-export type NotificationType = 'success' | 'error' | 'info';
+export type NotificationType = 'success' | 'error';
 
-export interface Notification {
+export interface ToastNotification {
   id: number;
   type: NotificationType;
   message: string;

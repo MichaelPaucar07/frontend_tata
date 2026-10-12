@@ -11,6 +11,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { AsyncValidatorFn, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Product } from '@core/models/product/product';
 import { FormFieldComponent } from '@shared/form-field/form-field.component';
+import { requiredText, textLength } from '@shared/validators/text.validators';
 import { addYearsIso, todayIso } from '@shared/utils/date.utils';
 import { PRODUCT_ERROR_MESSAGES } from '../../validators/product-error-messages';
 import {
@@ -48,12 +49,12 @@ export class ProductFormComponent {
 
   readonly form = this.fb.group({
     id: this.fb.control('', {
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(10)],
+      validators: [requiredText(), textLength(3, 10)],
       asyncValidators: [this.uniqueId],
     }),
-    name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-    description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(200)]],
-    logo: ['', Validators.required],
+    name: ['', [requiredText(), textLength(5, 100)]],
+    description: ['', [requiredText(), textLength(10, 200)]],
+    logo: ['', requiredText()],
     date_release: ['', [Validators.required, minTodayValidator()]],
     date_revision: ['', [Validators.required, oneYearAfterValidator('date_release')]],
   });
@@ -83,7 +84,15 @@ export class ProductFormComponent {
       this.form.markAllAsTouched();
       return;
     }
-    this.submitted.emit(this.form.getRawValue());
+    const raw = this.form.getRawValue();
+    // LOS ESPACIOS DE LOS EXTREMOS NO SE GUARDAN: LO QUE VALIDAMOS ES LO QUE SE ENVIA.
+    this.submitted.emit({
+      ...raw,
+      id: raw.id.trim(),
+      name: raw.name.trim(),
+      description: raw.description.trim(),
+      logo: raw.logo.trim(),
+    });
   }
 
   /** EN CREAR DEJA TODO EN BLANCO; EN EDITAR REGRESA A LOS DATOS ORIGINALES DEL PRODUCTO. */

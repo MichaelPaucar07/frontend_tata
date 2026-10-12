@@ -15,22 +15,21 @@ describe('NotifyService', () => {
   it('should add notifications of each type', () => {
     service.success('ok');
     service.error('fail');
-    service.info('fyi');
 
-    expect(service.notifications().map((n) => n.type)).toEqual(['success', 'error', 'info']);
-    expect(service.notifications().map((n) => n.message)).toEqual(['ok', 'fail', 'fyi']);
+    expect(service.notifications().map((n) => n.type)).toEqual(['success', 'error']);
+    expect(service.notifications().map((n) => n.message)).toEqual(['ok', 'fail']);
   });
 
   it('should assign unique ids', () => {
-    service.info('a');
-    service.info('b');
+    service.success('a');
+    service.success('b');
     const [first, second] = service.notifications();
     expect(first.id).not.toBe(second.id);
   });
 
   it('should dismiss a notification by id', () => {
-    service.info('a');
-    service.info('b');
+    service.success('a');
+    service.success('b');
     const [first] = service.notifications();
 
     service.dismiss(first.id);

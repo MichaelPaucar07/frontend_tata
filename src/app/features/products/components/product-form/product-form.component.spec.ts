@@ -89,6 +89,16 @@ describe('ProductFormComponent', () => {
       expect(errorOf(id)).toBe(message);
     });
 
+    it('should treat a field with only spaces as empty', () => {
+      type('name', '      ');
+      expect(errorOf('name')).toBe('Este campo es requerido!');
+    });
+
+    it('should not count surrounding spaces towards the minimum length', () => {
+      type('name', '  abcd  ');
+      expect(errorOf('name')).toBe('Debe tener mínimo 5 caracteres.');
+    });
+
     it('should reject a release date in the past', () => {
       type('date_release', '2000-01-01');
       expect(errorOf('date_release')).toBe('La fecha debe ser igual o mayor a la fecha actual.');
@@ -126,6 +136,20 @@ describe('ProductFormComponent', () => {
     expect(submitButton().disabled).toBe(false);
 
     submitButton().click();
+    expect(emitted).toEqual([validProduct]);
+  });
+
+  it('should send the values without surrounding spaces', () => {
+    const emitted: Product[] = [];
+    component.submitted.subscribe((p) => emitted.push(p));
+
+    fillValid();
+    type('id', `  ${validProduct.id}  `);
+    type('name', `  ${validProduct.name}  `);
+    type('description', ` ${validProduct.description} `);
+    type('logo', ` ${validProduct.logo} `);
+    submitButton().click();
+
     expect(emitted).toEqual([validProduct]);
   });
 

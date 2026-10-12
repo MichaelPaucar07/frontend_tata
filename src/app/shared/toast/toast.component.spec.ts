@@ -37,7 +37,7 @@ describe('ToastComponent', () => {
   });
 
   it('should dismiss a notification when clicking close', () => {
-    notify.info('Hola');
+    notify.success('Hola');
     fixture.detectChanges();
 
     (fixture.nativeElement.querySelector('.toast__close') as HTMLButtonElement).click();

@@ -1,11 +1,11 @@
 import { Injectable, signal } from '@angular/core';
-import { Notification, NotificationType } from '@core/models/notify/notify';
+import { NotificationType, ToastNotification } from '@core/models/notify/notify';
 
 export const NOTIFY_DURATION_MS = 4000;
 
 @Injectable({ providedIn: 'root' })
 export class NotifyService {
-  private readonly _notifications = signal<Notification[]>([]);
+  private readonly _notifications = signal<ToastNotification[]>([]);
   readonly notifications = this._notifications.asReadonly();
 
   private nextId = 0;
@@ -16,10 +16,6 @@ export class NotifyService {
 
   error(message: string): void {
     this.push('error', message);
-  }
-
-  info(message: string): void {
-    this.push('info', message);
   }
 
   dismiss(id: number): void {

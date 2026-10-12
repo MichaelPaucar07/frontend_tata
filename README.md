@@ -56,7 +56,7 @@ En desarrollo, `ng serve` usa [`proxy.conf.json`](proxy.conf.json): las peticion
 Pruebas unitarias con **Jest** (`jest-preset-angular`). El umbral mínimo de **70 %** está configurado en [`jest.config.js`](jest.config.js): si la cobertura baja, `npm run test:coverage` falla.
 
 ```
-Test Suites: 24 passed · Tests: 151 passed
+Test Suites: 25 passed · Tests: 163 passed
 Statements 100% · Branches 100% · Functions 100% · Lines 100%
 ```
 
@@ -132,7 +132,7 @@ ProductsService (HTTP)  →  ProductsStore (signals)  →  Página (smart)  → 
 ### Angular moderno
 - **Standalone components**, **signals** (`signal`, `computed`, `input()`, `output()`), nuevo control flow (`@if`, `@for … track`, `@empty`) y `inject()`.
 - **`ChangeDetectionStrategy.OnPush`** en todos los componentes.
-- **Lazy loading** por ruta: cada página es un chunk independiente.
+- **Lazy loading** por ruta (cada página es un chunk independiente) con **precarga en segundo plano** (`PreloadAllModules`): el formulario ya está descargado cuando el usuario pulsa *Agregar* o *Editar*.
 - **`withComponentInputBinding()`**: el producto resuelto llega a la página como `input()`, sin `ActivatedRoute` ni suscripciones.
 
 ### Búsqueda y paginación (F2, F3)
@@ -146,6 +146,7 @@ ProductsService (HTTP)  →  ProductsStore (signals)  →  Página (smart)  → 
 - **Fecha de revisión derivada**: se calcula automáticamente como liberación + 1 año y es de solo lectura. Se usa `readonly` (no `disabled`) para que su validador siga ejecutándose y su valor viaje en el formulario.
 - **ID único**: `AsyncValidator` con `timer(400)` que actúa como debounce (Angular cancela la validación anterior en cada tecla). No se ejecuta mientras fallen las reglas síncronas, y en edición se elimina porque el ID ya existe.
 - **Errores visibles por campo** (borde rojo + mensaje, como en D2) solo después de que el usuario interactúa con el control. `control.events` (Angular 18) se convierte a signal para funcionar con OnPush.
+- **Textos sin espacios fantasma**: un campo con solo espacios cuenta como vacío, las longitudes se miden sin los espacios de los extremos y se envía el valor recortado ([`text.validators.ts`](src/app/shared/validators/text.validators.ts)).
 - *Enviar* se deshabilita mientras el formulario es inválido o se está guardando (evita doble envío).
 
 | Campo | Validaciones |
