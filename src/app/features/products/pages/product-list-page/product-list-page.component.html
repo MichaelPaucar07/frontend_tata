@@ -7,25 +7,18 @@
 
 <section class="card" aria-label="Listado de productos financieros">
   @if (showLoading()) {
-    <div class="state" role="status">
-      <span class="spinner" aria-hidden="true"></span>
-      <p>Cargando productos...</p>
-    </div>
+  <div class="state" role="status">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Cargando productos...</p>
+  </div>
   } @else if (showError()) {
-    <div class="state state--error" role="alert">
-      <p>No se pudieron cargar los productos.</p>
-      <button type="button" class="btn btn--secondary" (click)="retry()">Reintentar</button>
-    </div>
+  <div class="state state--error" role="alert">
+    <p>No se pudieron cargar los productos.</p>
+    <button type="button" class="btn btn--secondary" (click)="retry()">Reintentar</button>
+  </div>
   } @else {
-    <app-product-table
-      [products]="store.visible()"
-      [emptyMessage]="emptyMessage()"
-      (edit)="onEdit($event)"
-    />
-    <app-product-list-footer
-      [total]="store.total()"
-      [pageSize]="store.pageSize()"
-      (pageSizeChange)="onPageSizeChange($event)"
-    />
+  <app-product-table [products]="store.visible()" [emptyMessage]="emptyMessage()" (edit)="onEdit($event)" />
+  <app-product-list-footer [total]="store.total()" [pageSize]="store.pageSize()"
+    (pageSizeChange)="onPageSizeChange($event)" />
   }
 </section>

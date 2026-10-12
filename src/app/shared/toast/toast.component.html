@@ -1,19 +1,12 @@
 <div class="toast-stack" aria-live="polite">
   @for (notification of notify.notifications(); track notification.id) {
-    <div
-      class="toast"
-      [class]="'toast--' + notification.type"
-      [attr.role]="notification.type === 'error' ? 'alert' : 'status'"
-    >
-      <p class="toast__message">{{ notification.message }}</p>
-      <button
-        type="button"
-        class="toast__close"
-        aria-label="Cerrar notificación"
-        (click)="notify.dismiss(notification.id)"
-      >
-        &times;
-      </button>
-    </div>
+  <div class="toast" [class]="'toast--' + notification.type"
+    [attr.role]="notification.type === 'error' ? 'alert' : 'status'">
+    <p class="toast__message">{{ notification.message }}</p>
+    <button type="button" class="toast__close" aria-label="Cerrar notificación"
+      (click)="notify.dismiss(notification.id)">
+      &times;
+    </button>
+  </div>
   }
 </div>

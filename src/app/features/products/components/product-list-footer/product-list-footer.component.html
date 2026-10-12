@@ -5,6 +5,8 @@
 <label class="sr-only" for="page-size">Registros por página</label>
 <select id="page-size" class="select" (change)="onChange($event)">
   @for (option of options; track option) {
-    <option [value]="option" [selected]="option === pageSize()">{{ option }}</option>
+  <option [value]="option" [selected]="option === pageSize()"
+    >{{ option }}</option
+  >
   }
 </select>

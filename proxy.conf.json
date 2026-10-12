@@ -1,6 +1,7 @@
 {
   "/bp": {
     "target": "http://localhost:3002",
+    "target_springboot": "http://localhost:8081",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "warn"

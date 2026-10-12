@@ -1,7 +1,7 @@
 <label class="field__label" [for]="fieldId()">{{ label() }}</label>
 <ng-content />
 @if (errorMessage(); as message) {
-  <small class="field__error" [id]="errorId()" aria-live="polite">{{ message }}</small>
+<small class="field__error" [id]="errorId()" aria-live="polite">{{ message }}</small>
 } @else if (hint()) {
-  <small class="field__hint">{{ hint() }}</small>
+<small class="field__hint">{{ hint() }}</small>
 }

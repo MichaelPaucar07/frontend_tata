@@ -1,8 +1,4 @@
 <section class="card">
   <h1 class="card__title">{{ title() }}</h1>
-  <app-product-form
-    [product]="product() ?? null"
-    [submitting]="submitting()"
-    (submitted)="onSubmit($event)"
-  />
+  <app-product-form [product]="product() ?? null" [submitting]="submitting()" (submitted)="onSubmit($event)" />
 </section>

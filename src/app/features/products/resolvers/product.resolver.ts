@@ -8,9 +8,9 @@ import { ProductsStore } from '../state/products.store';
 export const PRODUCT_NOT_FOUND_MESSAGE = 'El producto que intentas editar no existe.';
 
 /**
- * TRAE EL PRODUCTO ANTES DE ABRIR LA PANTALLA DE EDICION.
- * COMO LA API NO TIENE UN GET POR ID, LO BUSCAMOS EN LA LISTA QUE YA TIENE EL STORE.
- * SI NO EXISTE O LA API FALLA, REGRESAMOS AL LISTADO.
+ * CARGA EL PRODUCTO DE `/products/:id/edit` ANTES DE MOSTRAR LA PAGINA.
+ * LA API NO TIENE GET POR ID, ASI QUE EL STORE LO BUSCA EN LA LISTA (CACHEADA).
+ * ID INEXISTENTE O FALLO DE LA API → VUELVE AL LISTADO.
  */
 export const productResolver: ResolveFn<Product> = (route) => {
   const store = inject(ProductsStore);
